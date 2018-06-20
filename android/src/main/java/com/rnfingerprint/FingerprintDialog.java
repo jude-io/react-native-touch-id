@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -64,11 +65,11 @@ public class FingerprintDialog extends DialogFragment implements FingerprintHand
         this.mFingerprintSensorDescription = (TextView) v.findViewById(R.id.fingerprint_sensor_description);
         this.mFingerprintSensorDescription.setText(this.sensorDescription);
 
-        this.mFingerprintError = (TextView) v.findViewById(R.id.fingerprint_error);
-        this.mFingerprintError.setText(this.errorText);
+        final int color = authConfig.getInt("color");
+//        final ImageView mFingerprintImage = (ImageView) v.findViewById(R.id.fingerprint_icon);
+//        mFingerprintImage.setColorFilter(color);
 
         final Button mCancelButton = (Button) v.findViewById(R.id.cancel_button);
-        mCancelButton.setText(this.cancelText);
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,6 +78,8 @@ public class FingerprintDialog extends DialogFragment implements FingerprintHand
         });
 
         getDialog().setTitle(this.dialogTitle);
+//        getDialog().setTitle(authConfig.getString("title"));
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
                 if (keyCode != KeyEvent.KEYCODE_BACK || mFingerprintHandler == null) {

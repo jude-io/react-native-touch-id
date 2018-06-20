@@ -16,39 +16,45 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginTop="10dp"
-        android:gravity="left"
+        android:layout_marginTop="20dp"
+        android:gravity="top|left"
         android:text="TextView"
-        android:textColor="#696969"
+        android:textColor="#3B393B"
         android:textSize="17dp" />
 
-
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:orientation="horizontal"
-        android:paddingBottom="25dp"
-        android:paddingRight="20dp"
-        android:paddingTop="25dp">
+        android:gravity="center"
+        android:weightSum="1">
 
-        <ImageView
-            android:id="@+id/fingerprint_icon"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_marginLeft="25dp"
-            android:gravity="left"
-            android:src="@drawable/ic_fp_40px" />
-
-        <TextView
-            android:id="@+id/fingerprint_sensor_description"
-            android:layout_width="match_parent"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:gravity="left|center_vertical"
-            android:text="Touch sensor"
-            android:textColor="#696969"
-            android:textSize="15dp" />
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/circle"
+            android:elevation="8dp"
+            android:weightSum="1">
+
+            <ImageView
+                android:id="@+id/fingerprint_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:elevation="12dp"
+                android:src="@drawable/ic_fp_40px" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <TextView
@@ -66,14 +72,11 @@
     <Button
         android:id="@+id/cancel_button"
         style="?android:attr/buttonBarButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:paddingRight="15dp"
-        android:paddingLeft="15dp"
-        android:layout_marginEnd="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_gravity="bottom"
         android:background="#fff"
         android:text="Cancel"
-        android:textColor="#696969" />
+        android:textColor="#5d5d5d" />
 
 </LinearLayout>
