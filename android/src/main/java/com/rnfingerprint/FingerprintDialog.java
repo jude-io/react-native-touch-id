@@ -23,21 +23,30 @@ public class FingerprintDialog extends DialogFragment implements FingerprintHand
     private FingerprintHandler mFingerprintHandler;
     private boolean isAuthInProgress;
 
+    private ImageView mFingerprintImage;
+    private TextView mFingerprintSensorDescription;
+    private TextView mFingerprintError;
+
     private String authReason;
-    private ReadableMap authConfig;
+    private int imageColor = 0;
+    private int imageErrorColor = 0;
+    private String dialogTitle = "";
+    private String cancelText = "";
+    private String sensorDescription = "";
+    private String sensorErrorDescription = "";
+    private String errorText = "";
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        mFingerprintHandler = new FingerprintHandler(context, this);
+        this.mFingerprintHandler = new FingerprintHandler(context, this);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Material_Light_Dialog);
-
         setCancelable(false);
     }
 
@@ -46,7 +55,15 @@ public class FingerprintDialog extends DialogFragment implements FingerprintHand
         final View v = inflater.inflate(R.layout.fingerprint_dialog, container, false);
 
         final TextView mFingerprintDescription = (TextView) v.findViewById(R.id.fingerprint_description);
-        mFingerprintDescription.setText(authReason);
+        mFingerprintDescription.setText(this.authReason);
+
+        this.mFingerprintImage = (ImageView) v.findViewById(R.id.fingerprint_icon);
+        if (this.imageColor != 0) {
+            this.mFingerprintImage.setColorFilter(this.imageColor);
+        }
+
+        this.mFingerprintSensorDescription = (TextView) v.findViewById(R.id.fingerprint_sensor_description);
+        this.mFingerprintSensorDescription.setText(this.sensorDescription);
 
         final int color = authConfig.getInt("color");
 //        final ImageView mFingerprintImage = (ImageView) v.findViewById(R.id.fingerprint_icon);
@@ -60,6 +77,7 @@ public class FingerprintDialog extends DialogFragment implements FingerprintHand
             }
         });
 
+        getDialog().setTitle(this.dialogTitle);
 //        getDialog().setTitle(authConfig.getString("title"));
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
@@ -80,65 +98,93 @@ public class FingerprintDialog extends DialogFragment implements FingerprintHand
     public void onResume() {
         super.onResume();
 
-        if (isAuthInProgress) {
+        if (this.isAuthInProgress) {
             return;
         }
 
-        isAuthInProgress = true;
-        mFingerprintHandler.startAuth(mCryptoObject);
+        this.isAuthInProgress = true;
+        this.mFingerprintHandler.startAuth(mCryptoObject);
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-        mFingerprintHandler.endAuth();
+    public void onPause() {
+        super.onPause();
+        if (this.isAuthInProgress) {
+            this.mFingerprintHandler.endAuth();
+            this.isAuthInProgress = false;
+        }
     }
 
 
     public void setCryptoObject(FingerprintManager.CryptoObject cryptoObject) {
-        mCryptoObject = cryptoObject;
+        this.mCryptoObject = cryptoObject;
     }
 
     public void setDialogCallback(DialogResultListener newDialogCallback) {
-        dialogCallback = newDialogCallback;
+        this.dialogCallback = newDialogCallback;
     }
 
     public void setReasonForAuthentication(String reason) {
-        authReason = reason;
+        this.authReason = reason;
     }
 
-    public void setAuthConfig(ReadableMap config) {
-        authConfig = config;
+    public void setAuthConfig(final ReadableMap config) {
+        if (config == null) {
+            return;
+        }
+
+        if (config.hasKey("title")) {
+            this.dialogTitle = config.getString("title");
+        }
+
+        if (config.hasKey("cancelText")) {
+            this.cancelText = config.getString("cancelText");
+        }
+
+        if (config.hasKey("sensorDescription")) {
+            this.sensorDescription = config.getString("sensorDescription");
+        }
+
+        if (config.hasKey("sensorErrorDescription")) {
+            this.sensorErrorDescription = config.getString("sensorErrorDescription");
+        }
+
+        if (config.hasKey("imageColor")) {
+            this.imageColor = config.getInt("imageColor");
+        }
+
+        if (config.hasKey("imageErrorColor")) {
+            this.imageErrorColor = config.getInt("imageErrorColor");
+        }
     }
 
     public interface DialogResultListener {
         void onAuthenticated();
 
-        void onError(String errorString);
+        void onError(String errorString, int errorCode);
 
         void onCancelled();
     }
 
     @Override
     public void onAuthenticated() {
-        isAuthInProgress = false;
-        dialogCallback.onAuthenticated();
+        this.isAuthInProgress = false;
+        this.dialogCallback.onAuthenticated();
         dismiss();
     }
 
     @Override
-    public void onError(String errorString) {
-        isAuthInProgress = false;
-        dialogCallback.onError(errorString);
-        dismiss();
+    public void onError(String errorString, int errorCode) {
+        this.mFingerprintError.setText(errorString);
+        this.mFingerprintImage.setColorFilter(this.imageErrorColor);
+        this.mFingerprintSensorDescription.setText(this.sensorErrorDescription);
     }
 
     @Override
     public void onCancelled() {
-        isAuthInProgress = false;
-        mFingerprintHandler.endAuth();
-        dialogCallback.onCancelled();
+        this.isAuthInProgress = false;
+        this.mFingerprintHandler.endAuth();
+        this.dialogCallback.onCancelled();
         dismiss();
     }
 }
