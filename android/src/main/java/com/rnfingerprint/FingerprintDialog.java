@@ -24,7 +24,6 @@ public class FingerprintDialog extends DialogFragment implements FingerprintHand
     private boolean isAuthInProgress;
 
     private ImageView mFingerprintImage;
-    private TextView mFingerprintSensorDescription;
     private TextView mFingerprintError;
 
     private String authReason;
@@ -58,18 +57,12 @@ public class FingerprintDialog extends DialogFragment implements FingerprintHand
         mFingerprintDescription.setText(this.authReason);
 
         this.mFingerprintImage = (ImageView) v.findViewById(R.id.fingerprint_icon);
-        if (this.imageColor != 0) {
-            this.mFingerprintImage.setColorFilter(this.imageColor);
-        }
 
-        this.mFingerprintSensorDescription = (TextView) v.findViewById(R.id.fingerprint_sensor_description);
-        this.mFingerprintSensorDescription.setText(this.sensorDescription);
-
-        final int color = authConfig.getInt("color");
-//        final ImageView mFingerprintImage = (ImageView) v.findViewById(R.id.fingerprint_icon);
-//        mFingerprintImage.setColorFilter(color);
+        this.mFingerprintError = (TextView) v.findViewById(R.id.fingerprint_error);
+        this.mFingerprintError.setText(this.errorText);
 
         final Button mCancelButton = (Button) v.findViewById(R.id.cancel_button);
+        mCancelButton.setText(this.cancelText);
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +71,6 @@ public class FingerprintDialog extends DialogFragment implements FingerprintHand
         });
 
         getDialog().setTitle(this.dialogTitle);
-//        getDialog().setTitle(authConfig.getString("title"));
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
@@ -177,7 +169,6 @@ public class FingerprintDialog extends DialogFragment implements FingerprintHand
     public void onError(String errorString, int errorCode) {
         this.mFingerprintError.setText(errorString);
         this.mFingerprintImage.setColorFilter(this.imageErrorColor);
-        this.mFingerprintSensorDescription.setText(this.sensorErrorDescription);
     }
 
     @Override

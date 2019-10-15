@@ -22,40 +22,41 @@
         android:textColor="#3B393B"
         android:textSize="17dp" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:weightSum="1">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/circle"
-            android:elevation="8dp"
             android:weightSum="1">
 
-            <ImageView
-                android:id="@+id/fingerprint_icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:elevation="12dp"
-                android:src="@drawable/ic_fp_40px" />
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/circle"
+                android:elevation="8dp"
+                android:weightSum="1">
+
+                <ImageView
+                    android:id="@+id/fingerprint_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:elevation="12dp"
+                    android:src="@drawable/ic_fp_40px" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
 
     <TextView
         android:id="@+id/fingerprint_error"
@@ -63,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="18dp"
         android:gravity="center"
         android:text="TextView"
         android:textColor="#F00"
