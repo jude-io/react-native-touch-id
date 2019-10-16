@@ -38,7 +38,7 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/circle"
                 android:elevation="8dp"
                 android:weightSum="1">
@@ -64,9 +64,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginBottom="18dp"
+        android:layout_marginBottom="5dp"
         android:gravity="center"
-        android:text="TextView"
         android:textColor="#F00"
         android:textSize="15dp" />
 
